@@ -10,9 +10,7 @@ tags:
 - mongoose
 - node
 ---
-
-##错误代码
-
+## 错误代码
 ```
 CastError: Cast to string failed for value "{}" at path "flow_id" for model "iflow_steps"
     at new CastError (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/error/cast.js:26:11)
@@ -34,8 +32,7 @@ CastError: Cast to string failed for value "{}" at path "flow_id" for model "ifl
     at process._tickDomainCallback (internal/process/next_tick.js:218:9)
 ```
 
-##错误原因
-
+## 错误原因
 上代码先
 ```
 var _Schema = new model.Schema({
@@ -49,8 +46,7 @@ let iflowIds = await Iflow.schema.distinct('_id',{app_id:{$in:smartAppIds},curre
 let iflowSteps = await IflowStep.schema.find({flow_id:{$in:iflowIds},$or:conditions}).select('_id app_id step_key').execAsync();
 <!-- ... -->
 ```
-
-##解决方法
+## 解决方法
 ```
 ...
 let iflowIds = await Iflow.schema.distinct('_id',{app_id:{$in:smartAppIds},current_step_type:{$ne:'end'}}).execAsync();

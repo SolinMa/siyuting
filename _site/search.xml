@@ -4,8 +4,7 @@
     <entry>
       <title>CastError\: Cast to string failed for value &quot;{}&quot; at path &quot;flow_id&quot; for model &quot;iflow_steps&quot;</title>
       <url>/code/2018/03/21/CastError-Cast-to-string-failed-for-value-at-path-flow_id-for-model-iflow_steps/</url>
-      <content type="text">##错误代码
-
+      <content type="text">错误代码
 CastError: Cast to string failed for value &quot;{}&quot; at path &quot;flow_id&quot; for model &quot;iflow_steps&quot;
     at new CastError (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/error/cast.js:26:11)
     at SchemaString.cast (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/schema/string.js:458:9)
@@ -27,8 +26,7 @@ CastError: Cast to string failed for value &quot;{}&quot; at path &quot;flow_id&
 
 
 
-##错误原因
-
+错误原因
 上代码先
 var _Schema = new model.Schema({
     ...
@@ -42,8 +40,7 @@ let iflowSteps = await IflowStep.schema.find({flow_id:{$in:iflowIds},$or:conditi
 &amp;lt;!-- ... --&amp;gt;
 
 
-
-##解决方法
+解决方法
 ...
 let iflowIds = await Iflow.schema.distinct('_id',{app_id:{$in:smartAppIds},current_step_type:{$ne:'end'}}).execAsync();
 let iflowIdsCopy = iflowIds.map(id=&amp;gt;id.toString());
