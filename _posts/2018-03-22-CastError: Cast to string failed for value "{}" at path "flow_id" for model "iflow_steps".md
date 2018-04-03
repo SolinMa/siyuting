@@ -4,7 +4,7 @@ date: 2018-03-21 18:00
 category:
 - Code
 tags:
-- erroe
+- error
 - js
 - mongodb
 - mongoose
