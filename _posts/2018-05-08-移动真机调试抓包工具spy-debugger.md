@@ -23,15 +23,15 @@ tags:
 #### 页面编辑模式
   
 启动命令：`spy-debugger -w true`  
-<img src="demo/img/spy-debugger-w.gif" width="300px" />
+![编辑模式](https://raw.githubusercontent.com/wuchangming/spy-debugger/master/demo/img/spy-debugger-w.gif)
   
 #### weiner页面调试界面
   
-<img src="demo/img/demo.png" width="600px" />
+![调试模式](https://raw.githubusercontent.com/wuchangming/spy-debugger/master/demo/img/demo.png)
   
 #### anyproxy抓包界面
   
-<img src="demo/img/AnyProxy.png" width="600px" />
+![抓包模式](https://raw.githubusercontent.com/wuchangming/spy-debugger/master/demo/img/AnyProxy.png)
   
 安装
 ------------
