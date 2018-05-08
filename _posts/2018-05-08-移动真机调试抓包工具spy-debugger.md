@@ -18,20 +18,21 @@ tags:
 5、自动忽略原生App发起的https请求，只拦截webview发起的https请求。对使用了SSL pinning技术的原生App不造成任何影响。  
 6、可以配合其它代理工具一起使用(默认使用AnyProxy) [(设置外部代理)](#设置外部代理默认使用anyproxy)  
   
+  
 使用案例
 ------------
 #### 页面编辑模式
   
 启动命令：`spy-debugger -w true`  
-![编辑模式](https://raw.githubusercontent.com/wuchangming/spy-debugger/master/demo/img/spy-debugger-w.gif)
+![编辑模式](/assets/images/spy-debugger/spy-debugger-w.gif)
   
 #### weiner页面调试界面
   
-![调试模式](https://raw.githubusercontent.com/wuchangming/spy-debugger/master/demo/img/demo.png)
+![调试模式](/assets/images/spy-debugger/demo.png)
   
 #### anyproxy抓包界面
   
-![抓包模式](https://raw.githubusercontent.com/wuchangming/spy-debugger/master/demo/img/AnyProxy.png)
+![抓包模式](/assets/images/spy-debugger/AnyProxy.png)
   
 安装
 ------------
