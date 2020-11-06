@@ -1,0 +1,18 @@
+<div class="hd posts">
+    <a class="back" href="javascript:void(0);" target="_self"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <h1 class="post-title"><%= page.title %></h1>
+    <hr>
+
+    <div class="post-content">
+        <%- page.content %>
+    </div>
+
+    <% if (theme.valine.enable && page.comments) { %>
+        <hr class="fhr">
+        <div id="vcomments"></div>
+    <% } %>
+
+    <script>
+        var pub_date = <%- page.date || null %>;
+    </script>
+</div>

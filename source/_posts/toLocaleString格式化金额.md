@@ -1,6 +1,6 @@
 ---
 title: toLocaleString格式化金额
-date: 2018-04-13 18:00
+date: 2018-04-13 18:00:00
 category:
 - Code
 tags:

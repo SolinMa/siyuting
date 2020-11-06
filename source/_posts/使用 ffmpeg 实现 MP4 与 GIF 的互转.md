@@ -1,6 +1,6 @@
 ---
 title: 使用 ffmpeg 实现 MP4 与 GIF 的互转
-date: 2018-05-16 18:00
+date: 2018-05-16 18:00:00
 category:
 - Code
 tags:

@@ -1,6 +1,6 @@
 ---
 title: 一键安装最新内核并开启 BBR 脚本  
-date: 2019-02-26 19:00
+date: 2019-02-26 19:00:00
 category:
 - Code
 tags:

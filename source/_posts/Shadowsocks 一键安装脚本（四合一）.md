@@ -1,6 +1,6 @@
 ---
 title: Shadowsocks 一键安装脚本（四合一）  
-date: 2019-02-25 11:00
+date: 2019-02-25 11:00:00
 category:
 - Code
 tags:
