@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh">
+<!--
+             -. .                                        
+       _____   ',' ,                                    
+     ,'     ,'   ', ',                                  
+   ,'     ,'      |  |                                  
+   \       \       |  |                                  
+     \ /^\   \    ,' ,'                                  
+           \   \ ,' ,'      L'Internationale,            
+     / ~-.___\.-'  ,'            Sera le genre humain.   
+   /   .______.- ~ \                                     
+ /   /'          \   \                                   
+ \./               \/'                                   
+                                                         
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <title>移动真机调试抓包工具spy-debugger - 四雨亭下的猫</title>
+    
+      
+<link rel="stylesheet" href="/css/style.css">
+
+      
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+      
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+      
+<link rel="stylesheet" href="/libs/zpix/zpix.css">
+
+      
+<script src="/js/theme.js"></script>
+
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body id="bodyx" path="2018/05/08/移动真机调试抓包工具spy-debugger/">
+    <div class="hd posts">
+    <a class="back" href="javascript:void(0);" target="_self"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <h1 class="post-title">移动真机调试抓包工具spy-debugger</h1>
+    <hr>
+
+    
+        <div class="outdated-notify">
+            本文发布于 <span class="num">-</span> 天前，文中所描述的信息可能已发生改变或是过时，请注意辨别
+        </div>
+    
+
+    <div class="post-content">
+        <h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><p>1、页面调试＋抓包<br>2、<a href="#%E4%B8%89%E5%88%86%E9%92%9F%E4%B8%8A%E6%89%8B">操作简单</a>，无需USB连接设备<br>3、<strong>支持HTTPS</strong>。<br>4、<code>spy-debugger</code>内部集成了<a target="_blank" rel="noopener" href="http://people.apache.org/~pmuellr/weinre/docs/latest/"><code>weinre</code></a>、<a target="_blank" rel="noopener" href="https://github.com/wuchangming/node-mitmproxy"><code>node-mitmproxy</code></a>、<a target="_blank" rel="noopener" href="https://github.com/alibaba/anyproxy"><code>AnyProxy</code></a>。<br>5、自动忽略原生App发起的https请求，只拦截webview发起的https请求。对使用了SSL pinning技术的原生App不造成任何影响。<br>6、可以配合其它代理工具一起使用(默认使用AnyProxy) <a href="#%E8%AE%BE%E7%BD%AE%E5%A4%96%E9%83%A8%E4%BB%A3%E7%90%86%E9%BB%98%E8%AE%A4%E4%BD%BF%E7%94%A8anyproxy">(设置外部代理)</a>  </p>
+<h2 id="使用案例"><a href="#使用案例" class="headerlink" title="使用案例"></a>使用案例</h2><h4 id="页面编辑模式"><a href="#页面编辑模式" class="headerlink" title="页面编辑模式"></a>页面编辑模式</h4><p>启动命令：<code>spy-debugger -w true</code><br><img src="/assets/images/spy-debugger/spy-debugger-w.gif" alt="编辑模式"></p>
+<h4 id="weiner页面调试界面"><a href="#weiner页面调试界面" class="headerlink" title="weiner页面调试界面"></a>weiner页面调试界面</h4><p><img src="/assets/images/spy-debugger/demo.png" alt="调试模式"></p>
+<h4 id="anyproxy抓包界面"><a href="#anyproxy抓包界面" class="headerlink" title="anyproxy抓包界面"></a>anyproxy抓包界面</h4><p><img src="/assets/images/spy-debugger/AnyProxy.png" alt="抓包模式"></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Windows 下</p>
+<pre><code>    npm install spy-debugger -g</code></pre>
+<p>Mac 下</p>
+<pre><code>    sudo npm install spy-debugger -g</code></pre>
+<h2 id="三分钟上手"><a href="#三分钟上手" class="headerlink" title="三分钟上手"></a>三分钟上手</h2><p>第一步：手机和PC保持在同一网络下（比如同时连到一个Wi-Fi下）</p>
+<p>第二步：命令行输入<code>spy-debugger</code>，按命令行提示用浏览器打开相应地址。</p>
+<p>第三步：设置手机的HTTP代理，代理IP地址设置为PC的IP地址，端口为<code>spy-debugger</code>的启动端口(默认端口：9888)。</p>
+<ul>
+<li>Android设置代理步骤：<code>设置 - WLAN - 长按选中网络 - 修改网络 - 高级 - 代理设置 - 手动</code>  </li>
+<li>iOS设置代理步骤：<code>设置 - 无线局域网 - 选中网络 - HTTP代理手动</code>  </li>
+</ul>
+<p>第四步：手机安装证书。<strong>注：手机必须先设置完代理后再通过(非微信)手机浏览器访问<code>http://s.xxx</code><a href="demo/img/QRCodeForCert.png"><code>(地址二维码)</code></a>安装证书</strong>（手机首次调试需要安装证书，已安装了证书的手机无需重复安装)。<a target="_blank" rel="noopener" href="https://github.com/wuchangming/spy-debugger/issues/42">问题：iOS <code>10.3.1</code>以上版本证书安装问题</a></p>
+<p>第五步：用手机浏览器访问你要调试的页面即可。</p>
+<h2 id="自定义选项"><a href="#自定义选项" class="headerlink" title="自定义选项"></a>自定义选项</h2><h4 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h4><p>(默认端口：9888)</p>
+<pre><code>spy-debugger -p 8888</code></pre>
+<h4 id="设置外部代理（默认使用AnyProxy）"><a href="#设置外部代理（默认使用AnyProxy）" class="headerlink" title="设置外部代理（默认使用AnyProxy）"></a>设置外部代理（默认使用AnyProxy）</h4><pre><code>spy-debugger -e http://127.0.0.1:8888</code></pre>
+<p>spy-debugger内置AnyProxy提供抓包功能，但是也可通过设置外部代理和其它抓包代理工具一起使用，如：Charles、Fiddler。</p>
+<h4 id="设置页面内容为可编辑模式"><a href="#设置页面内容为可编辑模式" class="headerlink" title="设置页面内容为可编辑模式"></a>设置页面内容为可编辑模式</h4><p>该功能使页面内容修改更加直观方便。<br>(默认： false)</p>
+<pre><code>spy-debugger -w true</code></pre>
+<p>内部实现原理：在需要调试的页面内注入代码：<code>document.body.contentEditable=true</code>。暂不支持使用了iscroll框架的页面。</p>
+<h4 id="是否允许weinre监控iframe加载的页面"><a href="#是否允许weinre监控iframe加载的页面" class="headerlink" title="是否允许weinre监控iframe加载的页面"></a>是否允许weinre监控iframe加载的页面</h4><p>(默认： false)</p>
+<pre><code>spy-debugger -i true</code></pre>
+<h4 id="是否只拦截浏览器发起的https请求"><a href="#是否只拦截浏览器发起的https请求" class="headerlink" title="是否只拦截浏览器发起的https请求"></a>是否只拦截浏览器发起的https请求</h4><p>(默认： true)</p>
+<pre><code>spy-debugger -b false</code></pre>
+<p>有些浏览器发出的connect请求没有正确的携带userAgent，这个判断有时候会出错，如<strong>UC浏览器</strong>。这个时候需要设置为false。大多数情况建议启用默认配置：true，由于目前大量App应用自身（非WebView）发出的请求会使用到SSL pinning技术，自定义的证书将不能通过app的证书校验。</p>
+<h4 id="是否允许HTTP缓存"><a href="#是否允许HTTP缓存" class="headerlink" title="是否允许HTTP缓存"></a>是否允许HTTP缓存</h4><p>(默认： false)</p>
+<pre><code>spy-debugger -c true</code></pre>
+<h2 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h2><ul>
+<li><p>修复<code>weinre</code>在<code>node.js</code> V7版本会崩溃的bug</p>
+</li>
+<li><p>对<code>weinre</code>在页面<code>document ready</code>事件前，无法打印console.log日志进行了增强修复。</p>
+</li>
+<li><p>增强<code>weinre</code>打印未捕获异常(Uncaught Exceptions)功能。</p>
+</li>
+<li><p><code>spy-debugger</code>原理是集成了<code>weinre</code>，简化了<code>weinre</code>需要给每个调试的页面添加js代码。<code>spy-debugger</code>原理是拦截所有html页面请求注入<code>weinre</code>所需要的js代码。让页面调试更加方便。</p>
+</li>
+</ul>
+<blockquote>
+<p>原文：<a target="_blank" rel="noopener" href="https://github.com/wuchangming/spy-debugger">https://github.com/wuchangming/spy-debugger</a></p>
+</blockquote>
+
+    </div>
+
+    
+        <hr class="fhr">
+        <div id="vcomments"></div>
+    
+
+    <script>
+        var pub_date = 1525773600000;
+    </script>
+</div>
+    <div class="footer"
+     id="footer">
+    <p>
+        Copyright © 2020 <a class="flink"
+           href="/">四雨亭下的猫</a> · Theme by <a class="flink"
+           target="_blank" rel="noopener" href="https://github.com/journey-ad/hexo-theme-geek">Geek</a>.
+        <br>
+        Made with <i class="fa fa-heart throb"
+           style="color:#d43f57"></i> by <span class="author"
+              itemprop="copyrightHolder">Solin·Ma</span>.
+        <label class="el-switch el-switch-green el-switch-sm"
+               style="vertical-align: sub;">
+            <input type="checkbox"
+                   name="switch"
+                   id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+    </p>
+</div>
+
+<a href="javascript:void(0);" class="back-to-top" target="_self"></a>
+
+<input type="hidden"
+       id="web_style"
+       value="white">
+<input type="hidden"
+       id="valine_appid"
+       value="vSwxBpRGl3Uo3AjuKTSx8A59-gzGzoHsz">
+<input type="hidden"
+       id="valine_appKey"
+       value="Y9dvQjyrjSOAROWW2v2cznTC">
+<script src='//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js'></script>
+
+  
+<script src="/libs/jquery.min.js"></script>
+
+  
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+  
+<script src="/js/js.js"></script>
+
+
+<style type="text/css">
+    .v * {
+        /* color: #698fca; */
+    }
+
+    .v .vlist .vcard .vhead .vsys {
+        color: #3a3e4a;
+    }
+
+    .v .vlist .vcard .vh .vmeta .vat {
+        color: #638fd5;
+    }
+
+    .v .vlist .vcard .vhead .vnick {
+        color: #6ba1ff;
+    }
+
+    .v a {
+        color: #8696b1;
+    }
+
+    .v .vlist .vcard .vhead .vnick:hover {
+        color: #669bfc;
+    }
+
+    .v .vcards .vcard .vhead .vnick {
+        padding-left: 1px;
+    }
+
+    .v .vcontent .vemoji {
+        max-width: 30px;
+    }
+
+    .v[data-class=v] p {
+        color: inherit;
+    }
+
+</style>
+
+</body>
+
+</html>

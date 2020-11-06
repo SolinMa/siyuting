@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh">
+<!--
+             -. .                                        
+       _____   ',' ,                                    
+     ,'     ,'   ', ',                                  
+   ,'     ,'      |  |                                  
+   \       \       |  |                                  
+     \ /^\   \    ,' ,'                                  
+           \   \ ,' ,'      L'Internationale,            
+     / ~-.___\.-'  ,'            Sera le genre humain.   
+   /   .______.- ~ \                                     
+ /   /'          \   \                                   
+ \./               \/'                                   
+                                                         
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <title>Shadowsocks 一键安装脚本（四合一） - 四雨亭下的猫</title>
+    
+      
+<link rel="stylesheet" href="/css/style.css">
+
+      
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+      
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+      
+<link rel="stylesheet" href="/libs/zpix/zpix.css">
+
+      
+<script src="/js/theme.js"></script>
+
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body id="bodyx" path="2019/02/25/Shadowsocks 一键安装脚本（四合一）/">
+    <div class="hd posts">
+    <a class="back" href="javascript:void(0);" target="_self"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <h1 class="post-title">Shadowsocks 一键安装脚本（四合一）</h1>
+    <hr>
+
+    
+        <div class="outdated-notify">
+            本文发布于 <span class="num">-</span> 天前，文中所描述的信息可能已发生改变或是过时，请注意辨别
+        </div>
+    
+
+    <div class="post-content">
+        <h1 id="本脚本适用环境"><a href="#本脚本适用环境" class="headerlink" title="本脚本适用环境"></a>本脚本适用环境</h1><blockquote>
+<p>系统支持：CentOS 6+，Debian 7+，Ubuntu 12+<br>内存要求：≥128M</p>
+</blockquote>
+<h1 id="关于本脚本"><a href="#关于本脚本" class="headerlink" title="关于本脚本"></a>关于本脚本</h1><blockquote>
+<p>1、一键安装 Shadowsocks-Python， ShadowsocksR， Shadowsocks-Go， Shadowsocks-libev 版（四选一）服务端；<br>2、各版本的启动脚本及配置文件名不再重合；<br>3、每次运行可安装一种版本；<br>4、支持以多次运行来安装多个版本，且各个版本可以共存（注意端口号需设成不同）；<br>5、若已安装多个版本，则卸载时也需多次运行（每次卸载一种）；  </p>
+</blockquote>
+<h1 id="默认配置"><a href="#默认配置" class="headerlink" title="默认配置"></a>默认配置</h1><blockquote>
+<p>服务器端口：自己设定（如不设定，默认从 9000-19999 之间随机生成）<br>密码：自己设定（如不设定，默认为 teddysun.com）<br>加密方式：自己设定（如不设定，Python 和 libev 版默认为 aes-256-gcm，R 和 Go 版默认为 aes-256-cfb）<br>协议（protocol）：自己设定（如不设定，默认为 origin）（仅限 ShadowsocksR 版）<br>混淆（obfs）：自己设定（如不设定，默认为 plain）（仅限 ShadowsocksR 版）<br>备注：脚本默认创建单用户配置文件，如需配置多用户，请手动修改相应的配置文件后重启即可。</p>
+</blockquote>
+<h1 id="客户端下载"><a href="#客户端下载" class="headerlink" title="客户端下载"></a>客户端下载</h1><blockquote>
+<p>常规版 Windows 客户端<br><a target="_blank" rel="noopener" href="https://github.com/shadowsocks/shadowsocks-windows/releases">https://github.com/shadowsocks/shadowsocks-windows/releases</a></p>
+</blockquote>
+<blockquote>
+<p>ShadowsocksR 版 Windows 客户端<br><a target="_blank" rel="noopener" href="https://github.com/shadowsocksrr/shadowsocksr-csharp/releases">https://github.com/shadowsocksrr/shadowsocksr-csharp/releases</a></p>
+</blockquote>
+<h1 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h1><blockquote>
+<p>使用root用户登录，运行以下命令：</p>
+</blockquote>
+<pre><code>wget --no-check-certificate -O shadowsocks-all.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh
+chmod +x shadowsocks-all.sh
+./shadowsocks-all.sh 2&gt;&amp;1 | tee shadowsocks-all.log</code></pre>
+<blockquote>
+<p>安装完成后，脚本提示如下</p>
+</blockquote>
+<pre><code>Congratulations, your_shadowsocks_version install completed!
+Your Server IP        :your_server_ip
+Your Server Port      :your_server_port
+Your Password         :your_password
+Your Encryption Method:your_encryption_method
+
+Your QR Code: (For Shadowsocks Windows, OSX, Android and iOS clients)
+ ss://your_encryption_method:your_password@your_server_ip:your_server_port
+Your QR Code has been saved as a PNG file path:
+ your_path.png
+
+Welcome to visit:https://teddysun.com/486.html
+Enjoy it!</code></pre>
+<h1 id="卸载方法"><a href="#卸载方法" class="headerlink" title="卸载方法"></a>卸载方法</h1><p>若已安装多个版本，则卸载时也需多次运行（每次卸载一种）</p>
+<blockquote>
+<p>使用root用户登录，运行以下命令：</p>
+</blockquote>
+<pre><code>./shadowsocks-all.sh uninstall</code></pre>
+<h1 id="启动脚本"><a href="#启动脚本" class="headerlink" title="启动脚本"></a>启动脚本</h1><blockquote>
+<p>启动脚本后面的参数含义，从左至右依次为：启动，停止，重启，查看状态。</p>
+</blockquote>
+<pre><code>Shadowsocks-Python 版：
+/etc/init.d/shadowsocks-python start | stop | restart | status
+
+ShadowsocksR 版：
+/etc/init.d/shadowsocks-r start | stop | restart | status
+
+Shadowsocks-Go 版：
+/etc/init.d/shadowsocks-go start | stop | restart | status
+
+Shadowsocks-libev 版：
+/etc/init.d/shadowsocks-libev start | stop | restart | status</code></pre>
+<h1 id="各版本默认配置文件"><a href="#各版本默认配置文件" class="headerlink" title="各版本默认配置文件"></a>各版本默认配置文件</h1><pre><code>Shadowsocks-Python 版：
+/etc/shadowsocks-python/config.json
+
+ShadowsocksR 版：
+/etc/shadowsocks-r/config.json
+
+Shadowsocks-Go 版：
+/etc/shadowsocks-go/config.json
+
+Shadowsocks-libev 版：
+/etc/shadowsocks-libev/config.json</code></pre>
+
+    </div>
+
+    
+        <hr class="fhr">
+        <div id="vcomments"></div>
+    
+
+    <script>
+        var pub_date = 1551092400000;
+    </script>
+</div>
+    <div class="footer"
+     id="footer">
+    <p>
+        Copyright © 2020 <a class="flink"
+           href="/">四雨亭下的猫</a> · Theme by <a class="flink"
+           target="_blank" rel="noopener" href="https://github.com/journey-ad/hexo-theme-geek">Geek</a>.
+        <br>
+        Made with <i class="fa fa-heart throb"
+           style="color:#d43f57"></i> by <span class="author"
+              itemprop="copyrightHolder">Solin·Ma</span>.
+        <label class="el-switch el-switch-green el-switch-sm"
+               style="vertical-align: sub;">
+            <input type="checkbox"
+                   name="switch"
+                   id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+    </p>
+</div>
+
+<a href="javascript:void(0);" class="back-to-top" target="_self"></a>
+
+<input type="hidden"
+       id="web_style"
+       value="white">
+<input type="hidden"
+       id="valine_appid"
+       value="vSwxBpRGl3Uo3AjuKTSx8A59-gzGzoHsz">
+<input type="hidden"
+       id="valine_appKey"
+       value="Y9dvQjyrjSOAROWW2v2cznTC">
+<script src='//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js'></script>
+
+  
+<script src="/libs/jquery.min.js"></script>
+
+  
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+  
+<script src="/js/js.js"></script>
+
+
+<style type="text/css">
+    .v * {
+        /* color: #698fca; */
+    }
+
+    .v .vlist .vcard .vhead .vsys {
+        color: #3a3e4a;
+    }
+
+    .v .vlist .vcard .vh .vmeta .vat {
+        color: #638fd5;
+    }
+
+    .v .vlist .vcard .vhead .vnick {
+        color: #6ba1ff;
+    }
+
+    .v a {
+        color: #8696b1;
+    }
+
+    .v .vlist .vcard .vhead .vnick:hover {
+        color: #669bfc;
+    }
+
+    .v .vcards .vcard .vhead .vnick {
+        padding-left: 1px;
+    }
+
+    .v .vcontent .vemoji {
+        max-width: 30px;
+    }
+
+    .v[data-class=v] p {
+        color: inherit;
+    }
+
+</style>
+
+</body>
+
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh">
+<!--
+             -. .                                        
+       _____   ',' ,                                    
+     ,'     ,'   ', ',                                  
+   ,'     ,'      |  |                                  
+   \       \       |  |                                  
+     \ /^\   \    ,' ,'                                  
+           \   \ ,' ,'      L'Internationale,            
+     / ~-.___\.-'  ,'            Sera le genre humain.   
+   /   .______.- ~ \                                     
+ /   /'          \   \                                   
+ \./               \/'                                   
+                                                         
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <title>记一次MongoDB中ObjectId类型的坑 - 四雨亭下的猫</title>
+    
+      
+<link rel="stylesheet" href="/css/style.css">
+
+      
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+      
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+      
+<link rel="stylesheet" href="/libs/zpix/zpix.css">
+
+      
+<script src="/js/theme.js"></script>
+
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body id="bodyx" path="2018/03/21/记一次MongoDB中ObjectId类型的坑/">
+    <div class="hd posts">
+    <a class="back" href="javascript:void(0);" target="_self"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <h1 class="post-title">记一次MongoDB中ObjectId类型的坑</h1>
+    <hr>
+
+    
+        <div class="outdated-notify">
+            本文发布于 <span class="num">-</span> 天前，文中所描述的信息可能已发生改变或是过时，请注意辨别
+        </div>
+    
+
+    <div class="post-content">
+        <h2 id="错误代码"><a href="#错误代码" class="headerlink" title="错误代码"></a>错误代码</h2><pre><code class="js">CastError: Cast to string failed for value &quot;&#123;&#125;&quot; at path &quot;flow_id&quot; for model &quot;iflow_steps&quot;
+    at new CastError (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/error/cast.js:26:11)
+    at SchemaString.cast (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/schema/string.js:458:9)
+    at SchemaString.SchemaType._castForQuery (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/schematype.js:1064:15)
+    at SchemaString.castForQuery (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/schema/string.js:513:15)
+    at /data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/schematype.js:991:18
+    at Array.map (&lt;anonymous&gt;)
+    at SchemaString.handleArray (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/schematype.js:990:14)
+    at SchemaString.castForQuery (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/schema/string.js:506:20)
+    at SchemaString.SchemaType.castForQueryWrapper (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/schematype.js:1016:17)
+    at cast (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/cast.js:249:39)
+    at model.Query.Query.cast (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/query.js:3090:12)
+    at model.Query.Query._castConditions (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/query.js:1144:10)
+    at model.Query.Query._find (/data/www/htdocs/rd-iflow2/node_modules/mongoose/lib/query.js:1159:8)
+    at /data/www/htdocs/rd-iflow2/node_modules/kareem/index.js:250:8
+    at /data/www/htdocs/rd-iflow2/node_modules/kareem/index.js:23:7
+    at _combinedTickCallback (internal/process/next_tick.js:131:7)
+    at process._tickDomainCallback (internal/process/next_tick.js:218:9)</code></pre>
+<h2 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h2><p>上代码先</p>
+<pre><code class="js">var _Schema = new model.Schema(&#123;
+    ...
+    flow_id              : String,
+    ...
+&#125;, &#123; versionKey: false &#125;);
+...
+let iflowIds = await Iflow.schema.distinct(&#39;_id&#39;,&#123;app_id:&#123;$in:smartAppIds&#125;,current_step_type:&#123;$ne:&#39;end&#39;&#125;&#125;).execAsync();
+// 此处iflowIds是ObjectId的数组，下一行拿来$in查询flow_id，结果IflowStep的model里面flow_id字段规定的是String类型，因此报错
+let iflowSteps = await IflowStep.schema.find(&#123;flow_id:&#123;$in:iflowIds&#125;,$or:conditions&#125;).select(&#39;_id app_id step_key&#39;).execAsync();
+&lt;!-- ... --&gt;</code></pre>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><pre><code class="js">...
+let iflowIds = await Iflow.schema.distinct(&#39;_id&#39;,&#123;app_id:&#123;$in:smartAppIds&#125;,current_step_type:&#123;$ne:&#39;end&#39;&#125;&#125;).execAsync();
+let iflowIdsCopy = iflowIds.map(id=&gt;id.toString());
+// 此处将ObjectId的数组转换成String数组就可以了。
+let iflowSteps = await IflowStep.schema.find(&#123;flow_id:&#123;$in:iflowIdsCopy&#125;,$or:conditions&#125;).select(&#39;_id app_id step_key&#39;).execAsync();
+...</code></pre>
+
+    </div>
+
+    
+        <hr class="fhr">
+        <div id="vcomments"></div>
+    
+
+    <script>
+        var pub_date = 1521655200000;
+    </script>
+</div>
+    <div class="footer"
+     id="footer">
+    <p>
+        Copyright © 2020 <a class="flink"
+           href="/">四雨亭下的猫</a> · Theme by <a class="flink"
+           target="_blank" rel="noopener" href="https://github.com/journey-ad/hexo-theme-geek">Geek</a>.
+        <br>
+        Made with <i class="fa fa-heart throb"
+           style="color:#d43f57"></i> by <span class="author"
+              itemprop="copyrightHolder">Solin·Ma</span>.
+        <label class="el-switch el-switch-green el-switch-sm"
+               style="vertical-align: sub;">
+            <input type="checkbox"
+                   name="switch"
+                   id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+    </p>
+</div>
+
+<a href="javascript:void(0);" class="back-to-top" target="_self"></a>
+
+<input type="hidden"
+       id="web_style"
+       value="white">
+<input type="hidden"
+       id="valine_appid"
+       value="vSwxBpRGl3Uo3AjuKTSx8A59-gzGzoHsz">
+<input type="hidden"
+       id="valine_appKey"
+       value="Y9dvQjyrjSOAROWW2v2cznTC">
+<script src='//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js'></script>
+
+  
+<script src="/libs/jquery.min.js"></script>
+
+  
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+  
+<script src="/js/js.js"></script>
+
+
+<style type="text/css">
+    .v * {
+        /* color: #698fca; */
+    }
+
+    .v .vlist .vcard .vhead .vsys {
+        color: #3a3e4a;
+    }
+
+    .v .vlist .vcard .vh .vmeta .vat {
+        color: #638fd5;
+    }
+
+    .v .vlist .vcard .vhead .vnick {
+        color: #6ba1ff;
+    }
+
+    .v a {
+        color: #8696b1;
+    }
+
+    .v .vlist .vcard .vhead .vnick:hover {
+        color: #669bfc;
+    }
+
+    .v .vcards .vcard .vhead .vnick {
+        padding-left: 1px;
+    }
+
+    .v .vcontent .vemoji {
+        max-width: 30px;
+    }
+
+    .v[data-class=v] p {
+        color: inherit;
+    }
+
+</style>
+
+</body>
+
+</html>

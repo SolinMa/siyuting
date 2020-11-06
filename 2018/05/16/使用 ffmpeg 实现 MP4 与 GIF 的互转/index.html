@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh">
+<!--
+             -. .                                        
+       _____   ',' ,                                    
+     ,'     ,'   ', ',                                  
+   ,'     ,'      |  |                                  
+   \       \       |  |                                  
+     \ /^\   \    ,' ,'                                  
+           \   \ ,' ,'      L'Internationale,            
+     / ~-.___\.-'  ,'            Sera le genre humain.   
+   /   .______.- ~ \                                     
+ /   /'          \   \                                   
+ \./               \/'                                   
+                                                         
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <title>使用 ffmpeg 实现 MP4 与 GIF 的互转 - 四雨亭下的猫</title>
+    
+      
+<link rel="stylesheet" href="/css/style.css">
+
+      
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+      
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+      
+<link rel="stylesheet" href="/libs/zpix/zpix.css">
+
+      
+<script src="/js/theme.js"></script>
+
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body id="bodyx" path="2018/05/16/使用 ffmpeg 实现 MP4 与 GIF 的互转/">
+    <div class="hd posts">
+    <a class="back" href="javascript:void(0);" target="_self"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <h1 class="post-title">使用 ffmpeg 实现 MP4 与 GIF 的互转</h1>
+    <hr>
+
+    
+        <div class="outdated-notify">
+            本文发布于 <span class="num">-</span> 天前，文中所描述的信息可能已发生改变或是过时，请注意辨别
+        </div>
+    
+
+    <div class="post-content">
+        <p>在 Mac OSX 上使用 Homebrew 安装 ffmpeg：</p>
+<pre><code class="npm">brew install ffmpeg
+
+brew install ffmpeg --with-fdk-aac --with-ffplay --with-freetype --with-libass --with-libquvi --with-libvorbis --with-libvpx --with-opus --with-x265
+
+brew update &amp;&amp; brew upgrade ffmpeg</code></pre>
+<h1 id="将视频-MP4-转化为-GIF"><a href="#将视频-MP4-转化为-GIF" class="headerlink" title="将视频 MP4 转化为 GIF"></a>将视频 MP4 转化为 GIF</h1><pre><code class="npm">ffmpeg -i small.mp4 small.gif</code></pre>
+<h2 id="转化视频中的一部分为-GIF"><a href="#转化视频中的一部分为-GIF" class="headerlink" title="转化视频中的一部分为 GIF"></a>转化视频中的一部分为 GIF</h2><pre><code class="npm">ffmpeg -t 3 -ss 00:00:02 -i small.webm small-clip.gif</code></pre>
+<p>从视频中第二秒开始，截取时长为3秒的片段转化为 gif</p>
+<h2 id="转化高质量-GIF"><a href="#转化高质量-GIF" class="headerlink" title="转化高质量 GIF"></a>转化高质量 GIF</h2><p>默认转化是中等质量模式，若要转化出高质量的 gif，可以修改比特率</p>
+<pre><code class="npm">ffmpeg -i small.mp4 -b 2048k small.gif</code></pre>
+<h1 id="视频属性调整"><a href="#视频属性调整" class="headerlink" title="视频属性调整"></a>视频属性调整</h1><h2 id="缩放视频尺寸"><a href="#缩放视频尺寸" class="headerlink" title="缩放视频尺寸"></a>缩放视频尺寸</h2><pre><code class="npm">ffmpeg -i big.mov -vf scale=360:-1  small.mov</code></pre>
+<p>注意 <em>sacle</em> 值必须是偶数，这里的 <em>-1</em> 表示保持长宽比，根据宽度值自适应高度。</p>
+<p>如果要求压缩出来的视频尺寸长宽都保持为偶数，可以使用 <em>-2</em></p>
+<h2 id="加倍速播放视频"><a href="#加倍速播放视频" class="headerlink" title="加倍速播放视频"></a>加倍速播放视频</h2><pre><code class="npm">ffmpeg -i input.mov -filter:v &quot;setpts=0.5*PTS&quot; output.mov</code></pre>
+<p>定义帧率 16fps:</p>
+<pre><code class="npm">ffmpeg -i input.mov -r 16 -filter:v &quot;setpts=0.125*PTS&quot; -an output.mov</code></pre>
+<h2 id="慢倍速播放视频"><a href="#慢倍速播放视频" class="headerlink" title="慢倍速播放视频"></a>慢倍速播放视频</h2><pre><code class="npm">ffmpeg -i input.mov -filter:v &quot;setpts=2.0*PTS&quot; output.mov</code></pre>
+<h2 id="静音视频（移除视频中的音频）"><a href="#静音视频（移除视频中的音频）" class="headerlink" title="静音视频（移除视频中的音频）"></a>静音视频（移除视频中的音频）</h2><pre><code class="npm">ffmpeg -i input.mov -an mute-output.mov</code></pre>
+<p><em>-an</em> 就是禁止音频输出</p>
+<h1 id="将-GIF-转化为-MP4"><a href="#将-GIF-转化为-MP4" class="headerlink" title="将 GIF 转化为 MP4"></a>将 GIF 转化为 MP4</h1><pre><code class="npm">ffmpeg -f gif -i animation.gif animation.mp4</code></pre>
+<p>也可以将 gif 转为其他视频格式</p>
+<pre><code class="npm">ffmpeg -f gif -i animation.gif animation.mpeg</code></pre>
+<pre><code class="npm">ffmpeg -f gif -i animation.gif animation.webm</code></pre>
+<h1 id="获取-GIF-的第一帧图片"><a href="#获取-GIF-的第一帧图片" class="headerlink" title="获取 GIF 的第一帧图片"></a>获取 GIF 的第一帧图片</h1><p>使用 ImageMagick 可以方便第提取 gif 图片的第 N 帧图像。</p>
+<p>安装 ImageMagick</p>
+<pre><code class="npm">brew install imagemagick</code></pre>
+<p>提取第一帧</p>
+<pre><code class="npm">convert &#39;animation.gif[0]&#39; animation-first-frame.gif</code></pre>
+<p>通过 <em>[0]</em> 就可以提取出 gif 的第一帧图像。</p>
+<h1 id="GIF-转出来的-MP4-播放不了？"><a href="#GIF-转出来的-MP4-播放不了？" class="headerlink" title="GIF 转出来的 MP4 播放不了？"></a>GIF 转出来的 MP4 播放不了？</h1><p>有些 GIF 转化出来的 MP4 不能被 Mac QuickTime Player.app 播放，需要添加 <em>pixel formal</em> 参数</p>
+<pre><code class="npm">ffmpeg -i input.gif -vf scale=420:-2,format=yuv420p out.mp4</code></pre>
+<p>使用 <em>yunv420p</em> 需要保证长宽为偶数，这里同时使用了 <em>scale=420:-2</em> 。</p>
+<p>wiki 解释： QuickTime Player 对 H.264 视频只支持 YUV 色域 4:2:0 方式的二次插值算法。</p>
+
+    </div>
+
+    
+        <hr class="fhr">
+        <div id="vcomments"></div>
+    
+
+    <script>
+        var pub_date = 1526493600000;
+    </script>
+</div>
+    <div class="footer"
+     id="footer">
+    <p>
+        Copyright © 2020 <a class="flink"
+           href="/">四雨亭下的猫</a> · Theme by <a class="flink"
+           target="_blank" rel="noopener" href="https://github.com/journey-ad/hexo-theme-geek">Geek</a>.
+        <br>
+        Made with <i class="fa fa-heart throb"
+           style="color:#d43f57"></i> by <span class="author"
+              itemprop="copyrightHolder">Solin·Ma</span>.
+        <label class="el-switch el-switch-green el-switch-sm"
+               style="vertical-align: sub;">
+            <input type="checkbox"
+                   name="switch"
+                   id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+    </p>
+</div>
+
+<a href="javascript:void(0);" class="back-to-top" target="_self"></a>
+
+<input type="hidden"
+       id="web_style"
+       value="white">
+<input type="hidden"
+       id="valine_appid"
+       value="vSwxBpRGl3Uo3AjuKTSx8A59-gzGzoHsz">
+<input type="hidden"
+       id="valine_appKey"
+       value="Y9dvQjyrjSOAROWW2v2cznTC">
+<script src='//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js'></script>
+
+  
+<script src="/libs/jquery.min.js"></script>
+
+  
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+  
+<script src="/js/js.js"></script>
+
+
+<style type="text/css">
+    .v * {
+        /* color: #698fca; */
+    }
+
+    .v .vlist .vcard .vhead .vsys {
+        color: #3a3e4a;
+    }
+
+    .v .vlist .vcard .vh .vmeta .vat {
+        color: #638fd5;
+    }
+
+    .v .vlist .vcard .vhead .vnick {
+        color: #6ba1ff;
+    }
+
+    .v a {
+        color: #8696b1;
+    }
+
+    .v .vlist .vcard .vhead .vnick:hover {
+        color: #669bfc;
+    }
+
+    .v .vcards .vcard .vhead .vnick {
+        padding-left: 1px;
+    }
+
+    .v .vcontent .vemoji {
+        max-width: 30px;
+    }
+
+    .v[data-class=v] p {
+        color: inherit;
+    }
+
+</style>
+
+</body>
+
+</html>
