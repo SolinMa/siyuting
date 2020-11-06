@@ -1,0 +1,28 @@
+logo_title: 四雨亭下的猫
+
+style: white
+
+favicon: /favicon.ico
+
+menu:
+  归档: /archives
+  友链: /links
+  关于: /about
+  Github: https://github.com/SolinMa
+
+# 做了域名限制，请改成自己的 KEY
+# 若关闭valine 设置enable为false
+valine:
+  enable: true
+  appId: vSwxBpRGl3Uo3AjuKTSx8A59-gzGzoHsz
+  appKey: Y9dvQjyrjSOAROWW2v2cznTC
+
+highlight:
+  enable: false
+
+# cdn:
+#   enabled: true
+#   url: https://cdn.jsdelivr.net/gh/journey-ad/nocilol.me
+
+# analytics:
+#   googleId: UA-71903189-1

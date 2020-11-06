@@ -1,0 +1,67 @@
+<div class="hd logodiv">
+    <%- image_tag('https://count.getloli.com/get/@jad-blog?theme=moebooru',{class: 'logopng'}) %>
+    <p class="logot">
+        <span class="logo_1">&lt;</span>
+        <span class="logo_2">/</span>
+        <span class="logo_3">#</span>
+        <a href="/" title="四雨亭下的猫">
+            <ruby>
+                四
+                <rp>(</rp>
+                <rt>s</rt>
+                <rp>)</rp>
+                雨
+                <rp>(</rp>
+                <rt>y</rt>
+                <rp>)</rp>
+                亭
+                <rp>(</rp>
+                <rt>ti</rt>
+                <rp>)</rp>
+                下
+                <rp>(</rp>
+                <rt>xi</rt>
+                <rp>)</rp>
+                的
+                <rp>(</rp>
+                <rt>の</rt>
+                <rp>)</rp>
+                猫
+                <rp>(</rp>
+                <rt>cat</rt>
+                <rp>)</rp>
+            </ruby>
+        </a>
+        <span class="logo_3">#</span>
+        <span class="logo_2">/</span>
+        <span class="logo_1">&gt;</span>
+    </p>
+</div>
+<%- partial('_partial/nav') %>
+<div class="hd">
+    <% var last; %>
+    <% page.posts.each(function (post) { %>
+    <% var year = post.date.year(); %>
+    <% if (last != year){ %>
+    <div class="titlex">
+        <p><span class="title-year">#</span>
+            <%= year %>
+        </p>
+    </div>
+    <% last = year; %>
+    <% } %>
+    <a class="flink"
+       href="<%- url_for(post.path) %>">
+        <div class="list">
+            <div class="postname">
+                <%= post.title %>
+            </div>
+            <div class="posttime">
+                <%- full_date(post.date, 'MMMM Do') %>
+            </div>
+        </div>
+    </a>
+    <% }) %>
+    <a class="more"
+       href="/archives">More >></a>
+</div>
