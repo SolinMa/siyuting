@@ -22,4 +22,4 @@ highlight:
 
 cdn:
   enabled: true
-  url: https://cdn.jsdelivr.net/gh/SolinMa/siyuting@master/themes/geek/source
+  url: https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages
