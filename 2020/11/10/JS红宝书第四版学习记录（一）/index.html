@@ -20,7 +20,7 @@
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" href="/siyuting/favicon.ico" type="image/icon">
-    <title>关于 - 四雨亭下的猫</title>
+    <title>JS红宝书第四版学习记录（一） - 四雨亭下的猫</title>
     
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/css/style.css">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/libs/highlight/styles/monokai-sublime.css">
@@ -30,10 +30,10 @@
     
 <meta name="generator" content="Hexo 5.2.0"></head>
 
-<body id="bodyx" path="about/index.html">
+<body id="bodyx" path="2020/11/10/JS红宝书第四版学习记录（一）/">
     <div class="hd posts">
     <a class="back" href="javascript:void(0);" target="_self"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
-    <h1 class="post-title">关于</h1>
+    <h1 class="post-title">JS红宝书第四版学习记录（一）</h1>
     <hr>
 
     
@@ -43,16 +43,31 @@
     
 
     <div class="post-content">
-        <h3 id="关于博客"><a href="#关于博客" class="headerlink" title="关于博客"></a>关于博客</h3><p>本站使用开源静态网页生成工具 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">Hexo</a>，使用Jad修改的 <a target="_blank" rel="noopener" href="https://nocilol.me/">Geek</a> 主题</p>
-<p>托管于 <a target="_blank" rel="noopener" href="https://pages.github.com/">GitHub Pages</a></p>
-<h3 id="自己"><a href="#自己" class="headerlink" title="自己"></a>自己</h3><ul>
-<li>前端工程师</li>
-<li>喜欢折腾，热爱英雄联盟</li>
-<li>记录工作，记录生活</li>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><a target="_blank" rel="noopener" href="https://book.douban.com/subject/10546125/">《JavaScript高级程序设计》</a>作为我入门前端阅读得书籍，当时还是第三版，JS标准发展到2020年已经又新增了很多内容，红宝书也在2020-09-11发布了最新的第4版，实际用了几年JS之后再来看一遍，相信会有不同的感受，在此记录下来，方便自己翻看或者后来人稍作参考。</p>
+<h3 id="第一章-什么是JavaScript"><a href="#第一章-什么是JavaScript" class="headerlink" title="第一章 什么是JavaScript"></a>第一章 什么是JavaScript</h3><h4 id="诞生"><a href="#诞生" class="headerlink" title="诞生"></a>诞生</h4><p>因为网速原因，表单验证需要放在前台来做。1995 年，网景公司一位名叫 Brendan Eich 的工程师，开发了一个叫 Mocha（后来改名为 LiveScript）的脚本语言。后面为了蹭Java的热度改名为了JavaScript。</p>
+<h4 id="ECMAScript"><a href="#ECMAScript" class="headerlink" title="ECMAScript"></a>ECMAScript</h4><p>微软搞了一个JScript，跟JavaScript做的有不同之处，没有标准化，就像ie作为万恶之源，于是1997年，欧洲计算机制造商协会（Ecma）花了数月时间打造出 ECMA-262，也就是 ECMAScript（发音为“ek-ma-script”）这个新的脚本语言标准。<br>我们常说的ES5~ES6也就是ECMA-262的第几次版本更新。除了核心代码ECMAScript，JavaScript还包括DOM（文档对象模型）、BOM（浏览器对象模型）。</p>
+<h3 id="第二章-HTML中的JavaScript"><a href="#第二章-HTML中的JavaScript" class="headerlink" title="第二章 HTML中的JavaScript"></a>第二章 HTML中的JavaScript</h3><ul>
+<li>所有<code>&lt;script&gt;</code>元素会依照它们在网页中出现的次序被解释。<br>如果你自己的代码doSth.js中依赖了JQuery对象，那就需要将引入doSth.js的标签放在JQuery下面。</li>
 </ul>
-<h3 id="联系我"><a href="#联系我" class="headerlink" title="联系我"></a>联系我</h3><blockquote>
-<p>QQ：110072604 // 请说明来意<br>E-mail: <a href="mailto:&#x63;&#104;&#x69;&#110;&#101;&#x73;&#x65;&#51;&#x30;&#49;&#x37;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;">&#x63;&#104;&#x69;&#110;&#101;&#x73;&#x65;&#51;&#x30;&#49;&#x37;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#x6d;</a><br>github: <a target="_blank" rel="noopener" href="https://github.com/SolinMa">https://github.com/SolinMa</a></p>
-</blockquote>
+<pre><code class="html">    &lt;script src=&quot;/jquery.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;/doSth.js&quot;&gt;&lt;/script&gt;</code></pre>
+<ul>
+<li><p><code>defer</code>属性，意于告诉浏览器立即下载，但延迟执行。(<del>不推荐</del>)<br>在实际当中，推迟执行的脚本不一定总会按顺序执行或者在 <code>DOMContentLoaded</code>事件之前执行，因此最好只包含一个这样的脚本。</p>
+</li>
+<li><p><code>async</code>属性，类似<code>defer</code>属性，但是不约束执行顺序。(<del>不推荐</del>)<br>异步脚本之间不应存在依赖关系，且不应该在加载期间操作DOM。</p>
+</li>
+<li><p>通过添加脚本标签的方式动态添加脚本的方式，脚本标签自带<code>async</code>属性。<br>鉴于兼容性问题，可以设置async为false。</p>
+</li>
+</ul>
+<pre><code class="javascript">let script = document.createElement(&#39;script&#39;); 
+script.src = &#39;doSth.js&#39;; 
+script.async = false; 
+document.head.appendChild(script);</code></pre>
+<p>可以通过在文档头部显式声明它们，通知预加载器，提升性能。</p>
+<pre><code class="javascript">&lt;link rel=&quot;preload&quot; href=&quot;doSth.js&quot;&gt;</code></pre>
+<ul>
+<li>通过使用<code>&lt;noscript&gt;</code>元素，可以指定在浏览器不支持脚本时显示的内容。</li>
+</ul>
 
     </div>
 
@@ -62,7 +77,7 @@
     
 
     <script>
-        var pub_date = 1604701200000;
+        var pub_date = 1605031429000;
     </script>
 </div>
     <div class="footer"
