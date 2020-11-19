@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh">
+<!--
+             -. .                                        
+       _____   ',' ,                                    
+     ,'     ,'   ', ',                                  
+   ,'     ,'      |  |                                  
+   \       \       |  |                                  
+     \ /^\   \    ,' ,'                                  
+           \   \ ,' ,'      L'Internationale,            
+     / ~-.___\.-'  ,'            Sera le genre humain.   
+   /   .______.- ~ \                                     
+ /   /'          \   \                                   
+ \./               \/'                                   
+                                                         
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="/siyuting/favicon.png" type="image/png">
+    <title>JS红宝书第四版学习记录（三） - 四雨亭下的猫</title>
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/css/style.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/libs/highlight/styles/monokai-sublime.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/libs/font-awesome/css/font-awesome.min.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/libs/zpix/zpix.css">
+      <script src="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/js/theme.js"></script>
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body id="bodyx" path="2020/11/19/JS红宝书第四版学习记录（三）/">
+    <div class="hd posts">
+    <a class="back" href="javascript:void(0);" target="_self"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <h1 class="post-title">JS红宝书第四版学习记录（三）</h1>
+    <hr>
+
+    
+        <div class="outdated-notify">
+            本文发布于 <span class="num">-</span> 天前，文中所描述的信息可能已发生改变或是过时，请注意辨别
+        </div>
+    
+
+    <div class="post-content">
+        <h3 id="第四章-变量、作用域与内存"><a href="#第四章-变量、作用域与内存" class="headerlink" title="第四章 变量、作用域与内存"></a>第四章 变量、作用域与内存</h3><h4 id="动态属性"><a href="#动态属性" class="headerlink" title="动态属性"></a>动态属性</h4><p><strong>原始值</strong>（primitive value）就是最简单的数据，<strong>引用值</strong>（reference value）则是由多个值构成的对象。</p>
+<p>原始值不能有属性，尽管尝试给原始值添加属性不会报错。比如：</p>
+<pre><code class="js">let name = &quot;Nicholas&quot;;
+name.age = 27;
+console.log(name.age); // undefined</code></pre>
+<h4 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h4><p>ECMAScript 中所有函数的参数都是按值传递的。这意味着函数外的值会被复制到函数内部的参数中，就像从一个变量复制到另一个变量一样。如果是原始值，那么就跟原始值变量的复制一样，如果是引用值，那么就跟引用值变量的复制一样。</p>
+<p>下面例子证明对象是按值传递的：</p>
+<pre><code class="js">function setName(obj) &#123;
+  obj.name = &quot;Nicholas&quot;;
+  obj = new Object();
+  obj.name = &quot;Greg&quot;;
+&#125;
+let person = new Object();
+setName(person);
+console.log(person.name); // &quot;Nicholas&quot;</code></pre>
+<p>当 obj 在函数内部被重写时，它变成了一个指向本地对象的指针。而那个本地对象在函数执行结束时就被销毁了。</p>
+<h4 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h4><p>垃圾回收基本思路很简单：确定哪个变量不会再使用，然后释放它占用的内存。这个过程是周期性的，即垃圾回收程序每隔一定时间（或者说在代码执行过程中某个预定的收集时间）就会自动运行。在浏览器的发展史上，用到过两种主要的标记策略：标记清理和引用计数。</p>
+<h4 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h4><p>优化内存占用的最佳手段就是保证在执行代码时只保存必要的数据。如果数据不再必要，那么把它设置为 null，从而释放其引用。这也可以叫<br>作解除引用。这个建议最适合全局变量和全局对象的属性。局部变量在超出作用域后会被自动解除引用，如下面的例子所示：</p>
+<pre><code class="js">function createPerson(name)&#123;
+  let localPerson = new Object();
+  localPerson.name = name;
+  return localPerson;
+&#125;
+let globalPerson = createPerson(&quot;Nicholas&quot;);
+// 解除 globalPerson 对值的引用
+globalPerson = null;</code></pre>
+<ul>
+<li>通过 const 和 let 声明提升性能</li>
+</ul>
+<p>ES6 增加这两个关键字不仅有助于改善代码风格，而且同样有助于改进垃圾回收的过程。因为 const和 let 都以块（而非函数）为作用域，所以相比于使用 var，使用这两个新关键字可能会更早地让垃圾回收程序介入，尽早回收应该回收的内存。在块作用域比函数作用域更早终止的情况下，这就有可能发生。</p>
+<ul>
+<li>隐藏类和删除操作</li>
+</ul>
+<p>运行期间，V8 会将创建的对象与隐藏类关联起来，以跟踪它们的属性特征。能够共享相同隐藏类的对象性能会更好，V8 会针对这种情况进行优化，但不一定总能够做到。比如下面的代码：</p>
+<pre><code class="js">function Article() &#123;
+  this.title = &#39;Inauguration Ceremony Features Kazoo Band&#39;;
+&#125;
+let a1 = new Article();
+let a2 = new Article();</code></pre>
+<p>V8 会在后台配置，让这两个类实例共享相同的隐藏类，因为这两个实例共享同一个构造函数和原型。假设之后又添加了下面这行代码：</p>
+<pre><code class="js">a2.author = &#39;Jake&#39;;</code></pre>
+<p>此时两个 Article 实例就会对应两个不同的隐藏类。根据这种操作的频率和隐藏类的大小，这有可能对性能产生明显影响。<br>当然，解决方案就是避免 JavaScript 的“先创建再补充”（ready-fire-aim）式的动态属性赋值，并在构造函数中一次性声明所有属性，如下所示：</p>
+<pre><code class="js">
+function Article(opt_author) &#123;
+  this.title = &#39;Inauguration Ceremony Features Kazoo Band&#39;;
+  this.author = opt_author;
+&#125;
+let a1 = new Article();
+let a2 = new Article(&#39;Jake&#39;);</code></pre>
+<p>这样，两个实例基本上就一样了（不考虑 hasOwnProperty 的返回值），因此可以共享一个隐藏类，从而带来潜在的性能提升。</p>
+<ul>
+<li>静态分配与对象池</li>
+</ul>
+<p>浏览器决定何时运行垃圾回收程序的一个标准就是对象更替的速度。如果有很多对象被初始化，然后一下子又都超出了作用域，那么浏览器就会采用更激进的方式调度垃圾回收程序运行，这样当然会影响性能。</p>
+<p>一个策略是使用对象池。在初始化的某一时刻，可以创建一个对象池，用来管理一组可回收的对象。应用程序可以向这个对象池请求一个对象、设置其属性、使用它，然后在操作完成后再把它还给对象池。由于没发生对象初始化，垃圾回收探测就不会发现有对象更替，因此垃圾回收程序就不会那么频繁地运行。</p>
+
+    </div>
+
+    
+        <hr class="fhr">
+        <div id="vcomments"></div>
+    
+
+    <script>
+        var pub_date = 1605796602000;
+    </script>
+</div>
+    <div class="footer"
+     id="footer">
+    <p>
+        Copyright © 2020 <a class="flink"
+           href="/siyuting/">四雨亭下的猫</a> · Theme by <a class="flink"
+           target="_blank" rel="noopener" href="https://github.com/journey-ad/hexo-theme-geek">Geek</a>.
+        <br>
+        Made with <i class="fa fa-heart throb"
+           style="color:#d43f57"></i> by <span class="author"
+              itemprop="copyrightHolder">Solin·Ma</span>.
+        <label class="el-switch el-switch-green el-switch-sm"
+               style="vertical-align: sub;">
+            <input type="checkbox"
+                   name="switch"
+                   id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+    </p>
+</div>
+
+<a href="javascript:void(0);" class="back-to-top" target="_self"></a>
+
+<input type="hidden"
+       id="web_style"
+       value="white">
+<input type="hidden"
+       id="valine_appid"
+       value="vSwxBpRGl3Uo3AjuKTSx8A59-gzGzoHsz">
+<input type="hidden"
+       id="valine_appKey"
+       value="Y9dvQjyrjSOAROWW2v2cznTC">
+<script src='//cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js'></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/libs/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/libs/highlight/highlight.pack.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/js/js.js"></script>
+
+<style type="text/css">
+    .v * {
+        /* color: #698fca; */
+    }
+
+    .v .vlist .vcard .vhead .vsys {
+        color: #3a3e4a;
+    }
+
+    .v .vlist .vcard .vh .vmeta .vat {
+        color: #638fd5;
+    }
+
+    .v .vlist .vcard .vhead .vnick {
+        color: #6ba1ff;
+    }
+
+    .v a {
+        color: #8696b1;
+    }
+
+    .v .vlist .vcard .vhead .vnick:hover {
+        color: #669bfc;
+    }
+
+    .v .vcards .vcard .vhead .vnick {
+        padding-left: 1px;
+    }
+
+    .v .vcontent .vemoji {
+        max-width: 30px;
+    }
+
+    .v[data-class=v] p {
+        color: inherit;
+    }
+
+</style>
+
+</body>
+
+</html>
