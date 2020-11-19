@@ -20,7 +20,7 @@
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" href="/siyuting/favicon.png" type="image/png">
-    <title>关于 - 四雨亭下的猫</title>
+    <title>JS红宝书第四版学习记录（四） - 四雨亭下的猫</title>
     
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/css/style.css">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/libs/highlight/styles/monokai-sublime.css">
@@ -30,10 +30,10 @@
     
 <meta name="generator" content="Hexo 5.2.0"></head>
 
-<body id="bodyx" path="about/index.html">
+<body id="bodyx" path="2020/11/19/JS红宝书第四版学习记录（四）/">
     <div class="hd posts">
     <a class="back" href="javascript:void(0);" target="_self"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
-    <h1 class="post-title">关于</h1>
+    <h1 class="post-title">JS红宝书第四版学习记录（四）</h1>
     <hr>
 
     
@@ -43,16 +43,90 @@
     
 
     <div class="post-content">
-        <h3 id="关于博客"><a href="#关于博客" class="headerlink" title="关于博客"></a>关于博客</h3><p>本站使用开源静态网页生成工具 <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">Hexo</a>，使用Jad修改的 <a target="_blank" rel="noopener" href="https://nocilol.me/">Geek</a> 主题</p>
-<p>托管于 <a target="_blank" rel="noopener" href="https://pages.github.com/">GitHub Pages</a></p>
-<h3 id="自己"><a href="#自己" class="headerlink" title="自己"></a>自己</h3><ul>
-<li>前端工程师</li>
-<li>喜欢折腾，热爱英雄联盟</li>
-<li>记录工作，记录生活</li>
-</ul>
-<h3 id="联系我"><a href="#联系我" class="headerlink" title="联系我"></a>联系我</h3><blockquote>
-<p>QQ：110072604 // 请说明来意<br>E-mail: <a href="mailto:&#99;&#104;&#x69;&#110;&#x65;&#x73;&#101;&#x33;&#x30;&#49;&#55;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#109;">&#99;&#104;&#x69;&#110;&#x65;&#x73;&#101;&#x33;&#x30;&#49;&#55;&#64;&#x71;&#113;&#46;&#99;&#x6f;&#109;</a><br>github: <a target="_blank" rel="noopener" href="https://github.com/SolinMa">https://github.com/SolinMa</a></p>
+        <h3 id="基本引用类型"><a href="#基本引用类型" class="headerlink" title="基本引用类型"></a>基本引用类型</h3><p>对象被认为是某个特定引用类型的实例。新对象通过使用 new 操作符后跟一个构造函数（constructor）来创建。构造函数就是用来创建新对象的函数。</p>
+<h4 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h4><p>Date 类型重写了 toLocaleString()、toString()和 valueOf()方法。</p>
+<p>Date 类型的 valueOf()方法根本就不返回字符串，这个方法被重写后返回的是日期的毫秒表示。<br>因此，操作符（如小于号和大于号）可以直接使用它返回的值。比如下面的例子：</p>
+<pre><code class="js">let date1 = new Date(2020, 0, 1); // 2020 年 1 月 1 日
+let date2 = new Date(2020, 1, 1); // 2020 年 2 月 1 日
+console.log(date1 &lt; date2); // true
+console.log(date1 &gt; date2); // false</code></pre>
+<p>toLocaleString()和 toString()一样，会因浏览器而异。因此不能用于在用户界面上一致地显示日期。</p>
+<h4 id="RegExp"><a href="#RegExp" class="headerlink" title="RegExp"></a>RegExp</h4><p>每个正则表达式可以带零个或多个 flags（标记），用于控制正则表达式的行为。下面给出了表示匹配模式的标记。</p>
+<table>
+<thead>
+<tr>
+<th>flags（标记）</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>g</td>
+<td>全局模式，表示查找字符串的全部内容，而不是找到第一个匹配的内容就结束。</td>
+</tr>
+<tr>
+<td>i</td>
+<td>不区分大小写，表示在查找匹配时忽略 pattern 和字符串的大小写。</td>
+</tr>
+<tr>
+<td>m</td>
+<td>多行模式，表示查找到一行文本末尾时会继续查找。</td>
+</tr>
+<tr>
+<td>y</td>
+<td>粘附模式，表示只查找从 lastIndex 开始及之后的字符串。</td>
+</tr>
+<tr>
+<td>u</td>
+<td>Unicode 模式，启用 Unicode 匹配。</td>
+</tr>
+<tr>
+<td>s</td>
+<td>dotAll 模式，表示元字符.匹配任何字符（包括\n 或\r）。</td>
+</tr>
+</tbody></table>
+<p>正则表达式也可以使用 RegExp 构造函数来创建，它接收两个参数：模式字符串和（可选的）标记字符串，比如：</p>
+<pre><code class="js">// 匹配第一个&quot;bat&quot;或&quot;cat&quot;，忽略大小写
+let pattern1 = /[bc]at/i;
+// 跟 pattern1 一样，只不过是用构造函数创建的
+let pattern2 = new RegExp(&quot;[bc]at&quot;, &quot;i&quot;);</code></pre>
+<p>因为 RegExp 的模式参数是字符串，所以在某些情况下需要二次转义。所有元字符都必须二次转义，包括转义字符序列，如\n（\转义后的字符串是\，在正则表达式字符串中则要写成\\）。下表展示了几个正则表达式的字面量形式，以及使用 RegExp 构造函数创建时对应的模式字符串。</p>
+<table>
+<thead>
+<tr>
+<th>字面量模式</th>
+<th>对应的字符串</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/[bc]at/</td>
+<td>“\[bc\]at”</td>
+</tr>
+<tr>
+<td>/.at/</td>
+<td>“\.at”</td>
+</tr>
+<tr>
+<td>/name/age/</td>
+<td>“name\/age”</td>
+</tr>
+<tr>
+<td>/\d.\d{1,2}/</td>
+<td>“\d.\d{1,2}”</td>
+</tr>
+<tr>
+<td>/\w\hello\123/</td>
+<td>“\w\\hello\\123”</td>
+</tr>
+</tbody></table>
+<p>此外，使用 RegExp 也可以基于已有的正则表达式实例，并可选择性地修改它们的标记：</p>
+<pre><code class="js">const re1 = /cat/g;
+console.log(re1); // &quot;/cat/g&quot;
+const re2 = new RegExp(re1);
+console.log(re2); // &quot;/cat/g&quot;</code></pre>
+<blockquote>
+<p>RegExp 构造函数的所有属性都没有任何 Web 标准出处，因此不要在生产环境中使用它们。</p>
 </blockquote>
+<p><del>未完待续</del></p>
 
     </div>
 
@@ -62,7 +136,7 @@
     
 
     <script>
-        var pub_date = 1604701200000;
+        var pub_date = 1605807681000;
     </script>
 </div>
     <div class="footer"
