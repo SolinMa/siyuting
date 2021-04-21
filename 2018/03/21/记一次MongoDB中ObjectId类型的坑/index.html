@@ -28,7 +28,7 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/libs/zpix/zpix.css">
       <script src="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/js/theme.js"></script>
     
-<meta name="generator" content="Hexo 5.2.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body id="bodyx" path="2018/03/21/记一次MongoDB中ObjectId类型的坑/">
     <div class="hd posts">
@@ -60,7 +60,8 @@
     at /data/www/htdocs/rd-iflow2/node_modules/kareem/index.js:250:8
     at /data/www/htdocs/rd-iflow2/node_modules/kareem/index.js:23:7
     at _combinedTickCallback (internal/process/next_tick.js:131:7)
-    at process._tickDomainCallback (internal/process/next_tick.js:218:9)</code></pre>
+    at process._tickDomainCallback (internal/process/next_tick.js:218:9)
+</code></pre>
 <h2 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h2><p>上代码先</p>
 <pre><code class="js">var _Schema = new model.Schema(&#123;
     ...
@@ -71,13 +72,15 @@
 let iflowIds = await Iflow.schema.distinct(&#39;_id&#39;,&#123;app_id:&#123;$in:smartAppIds&#125;,current_step_type:&#123;$ne:&#39;end&#39;&#125;&#125;).execAsync();
 // 此处iflowIds是ObjectId的数组，下一行拿来$in查询flow_id，结果IflowStep的model里面flow_id字段规定的是String类型，因此报错
 let iflowSteps = await IflowStep.schema.find(&#123;flow_id:&#123;$in:iflowIds&#125;,$or:conditions&#125;).select(&#39;_id app_id step_key&#39;).execAsync();
-&lt;!-- ... --&gt;</code></pre>
+&lt;!-- ... --&gt;
+</code></pre>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><pre><code class="js">...
 let iflowIds = await Iflow.schema.distinct(&#39;_id&#39;,&#123;app_id:&#123;$in:smartAppIds&#125;,current_step_type:&#123;$ne:&#39;end&#39;&#125;&#125;).execAsync();
 let iflowIdsCopy = iflowIds.map(id=&gt;id.toString());
 // 此处将ObjectId的数组转换成String数组就可以了。
 let iflowSteps = await IflowStep.schema.find(&#123;flow_id:&#123;$in:iflowIdsCopy&#125;,$or:conditions&#125;).select(&#39;_id app_id step_key&#39;).execAsync();
-...</code></pre>
+...
+</code></pre>
 
     </div>
 

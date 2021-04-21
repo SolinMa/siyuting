@@ -28,7 +28,7 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/libs/zpix/zpix.css">
       <script src="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/js/theme.js"></script>
     
-<meta name="generator" content="Hexo 5.2.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body id="bodyx" path="2020/11/11/JS红宝书第四版学习记录（二）/">
     <div class="hd posts">
@@ -59,7 +59,8 @@ for (var i = 0; i &lt; 5; ++i) &#123;
 for (let i = 0; i &lt; 5; ++i) &#123; 
  setTimeout(() =&gt; console.log(i), 0) 
 &#125; 
-// 会输出 0、1、2、3、4</code></pre>
+// 会输出 0、1、2、3、4
+</code></pre>
 <h4 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h4><h5 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h5><p>typeof操作符，它不是函数，所以不需要参数（但可以使用参数）。<br> “undefined”表示值未定义；<br> “boolean”表示值为布尔值；<br> “string”表示值为字符串；<br> “number”表示值为数值；<br> “object”表示值为对象（而不是函数）或 null；<br> “function”表示值为函数；<br> “symbol”表示值为符号。</p>
 <h5 id="Null类型"><a href="#Null类型" class="headerlink" title="Null类型"></a>Null类型</h5><p>Null类型，它表示一个空的对象指针。声明一个明确作为对象使用的变量或属性的时候建议使用。</p>
 <pre><code class="javascript">let foo = null;
@@ -69,7 +70,8 @@ let bar = &#123;
     baz:  null,
     qux: &#39;balabala&#39;
 &#125;
-bar.baz = &#123;&#125;</code></pre>
+bar.baz = &#123;&#125;
+</code></pre>
 <h5 id="Number-类型"><a href="#Number-类型" class="headerlink" title="Number 类型"></a>Number 类型</h5><ul>
 <li>Number 类型使用 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/IEEE%20754/3869922" title="百度百科">IEEE 754</a> 格式表示整数和浮点值（在某些语言中也叫双精度值）。</li>
 <li>ES6 中的八进制值通过前缀 0o 来表示；严格模式下，前缀 0 会被视为语法错误，如果要表示八进制值，应该使用前缀 0o。</li>
@@ -79,11 +81,13 @@ bar.baz = &#123;&#125;</code></pre>
 let b = 0.2;
 if (a + b == 0.3) &#123; // 别这么干！实际为 0.300 000 000 000 000 04
     console.log(&quot;你得到 0.3&quot;); 
-&#125; </code></pre>
+&#125; 
+</code></pre>
 <h6 id="NaN"><a href="#NaN" class="headerlink" title="NaN"></a>NaN</h6><p>NaN（Not a Number）表示非数值，通常用0作除数会出现。<br>判断是否为NaN，可以用函数 <code>isNaN()</code> ，不可直接判断。</p>
 <pre><code class="javascript">NaN == NaN // false
 NaN === NaN // false
-isNaN(NaN) // true</code></pre>
+isNaN(NaN) // true
+</code></pre>
 <h5 id="数值转换"><a href="#数值转换" class="headerlink" title="数值转换"></a>数值转换</h5><p>在一些类型转换中（比如减法操作），通常采用的逻辑为：</p>
 <blockquote>
 <p>字符串、布尔值、null 或 undefined： Number()<br>对象： 优先调用valueOf()，没有则调用toString()</p>
@@ -100,18 +104,21 @@ Number(&#39; &#39;) // 0
 parseInt(&#39; &#39;) // NaN
 
 Number(&#39;.1&#39;) // 0.1
-parseInt(&#39;.1&#39;) // NaN</code></pre>
+parseInt(&#39;.1&#39;) // NaN
+</code></pre>
 <h4 id="String类型"><a href="#String类型" class="headerlink" title="String类型"></a>String类型</h4><p>在一些类型转换中（比如字符串加法操作），通常采用的逻辑为：</p>
 <blockquote>
 <p>对象、数值或布尔值：toString()<br>undefined 和 null：String()</p>
 </blockquote>
 <p>转义序列表示一个字符，只占一个长度。</p>
 <pre><code class="js">let text = &quot;sigma:\u03a3&quot;; // sigma:Σ
-console.log(text.length) // 7</code></pre>
+console.log(text.length) // 7
+</code></pre>
 <p>不确定一个值是不是 null 或 undefined，可以使用 String()转型函数，它始终会返回表示相应类型值的字符串。</p>
 <pre><code class="js">let foo;
 console.log(foo.toString()) // 报错
-console.log(String(foo)) // undefined</code></pre>
+console.log(String(foo)) // undefined
+</code></pre>
 <p>字符串插值中所有插入的值都会使用 <code>toString()</code> 强制转型为字符串，而且任何 JavaScript 表达式都可以用于插值。</p>
 <p>模板字面量标签函数，用例子说明。</p>
 <pre><code class="js">let a = 6;
@@ -122,10 +129,12 @@ function zipTag(strings, ...expressions) &#123;
 let untaggedResult = `$&#123; a &#125; + $&#123; b &#125; = $&#123; a + b &#125;`;
 let taggedResult = zipTag`$&#123; a &#125; + $&#123; b &#125; = $&#123; a + b &#125;`;
 console.log(untaggedResult); // &quot;6 + 9 = 15&quot;
-console.log(taggedResult); // &quot;6 + 9 = 15&quot;</code></pre>
+console.log(taggedResult); // &quot;6 + 9 = 15&quot;
+</code></pre>
 <p>原始模板字符串。</p>
 <pre><code class="js">console.log(`\u00A9`); // © 
-console.log(String.raw`\u00A9`); // \u00A9</code></pre>
+console.log(String.raw`\u00A9`); // \u00A9
+</code></pre>
 <p>也可以通过标签函数的第一个参数，即字符串数组的.raw 属性取得每个字符串的原始内容。</p>
 <pre><code class="js">function printRaw(strings) &#123; 
  console.log(&#39;Actual characters:&#39;); 
@@ -143,7 +152,8 @@ printRaw`\u00A9$&#123; &#39;and&#39; &#125;\n`;
 //（换行符）
 // Escaped characters: 
 // \u00A9 
-// \n</code></pre>
+// \n
+</code></pre>
 <h4 id="Symbol类型"><a href="#Symbol类型" class="headerlink" title="Symbol类型"></a>Symbol类型</h4><p>Symbol()实例用作对象的属性名可以保证其唯一性。Symbol()函数接收一个字符串参数作为描述以调试。但是它们并不相等。</p>
 <pre><code class="js">let fooSymbol = Symbol(); 
 let barSymbol = Symbol(); 
@@ -151,7 +161,8 @@ let bazSymbol = Symbol(&#39;baz&#39;);
 let baz1Symbol = Symbol(&#39;baz&#39;); 
 console.log(bazSymbol.description) // &quot;foo&quot;
 console.log(fooSymbol == barSymbol); // false 
-console.log(bazSymbol == baz1Symbol); // false</code></pre>
+console.log(bazSymbol == baz1Symbol); // false
+</code></pre>
 <p>使用 Symbol.for()方法在全局符号注册表中创建并重用符号，但是它跟描述符并不相同。使用 Symbol.keyFor()来查询全局注册表。</p>
 <pre><code class="js">let fooGlobalSymbol = Symbol.for(&#39;foo&#39;); // 创建新符号
 let otherFooGlobalSymbol = Symbol.for(&#39;foo&#39;); // 重用已有符号
@@ -161,23 +172,27 @@ let fooSymbol = Symbol(&#39;foo&#39;);
 console.log(fooGlobalSymbol === fooSymbol); // false
 
 console.log(Symbol.keyFor(fooGlobalSymbol)) // foo
-console.log(Symbol.keyFor(fooSymbol)) // undefined</code></pre>
+console.log(Symbol.keyFor(fooSymbol)) // undefined
+</code></pre>
 <h4 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h4><h5 id="位操作符"><a href="#位操作符" class="headerlink" title="位操作符"></a>位操作符</h5><p>有符号整数使用 32 位的前 31 位表示整数值。第 32 位表示数值的符号，如 0 表示正，1 表示负。<br>负值以一种称为<strong>二补数</strong>（或补码）的二进制编码存储。步骤如下：<br>(1) 确定绝对值的二进制表示；<br>(2) 找到数值的一补数（或反码），换句话说，就是每个 0 都变成 1，每个 1 都变成 0；<br>(3) 给结果加 1（补数加1，实际值为减1）。</p>
 <h5 id="布尔运算符"><a href="#布尔运算符" class="headerlink" title="布尔运算符"></a>布尔运算符</h5><p>逻辑与具有短路效应，如果第一个值为false，那么不会走到第二个值（React中常用于条件渲染）。</p>
 <h5 id="指数操作符"><a href="#指数操作符" class="headerlink" title="指数操作符"></a>指数操作符</h5><p>es7新增 <code>**</code> 操作符，效果等同<code>Math.pow()</code></p>
 <pre><code class="js">// 开平方
 let sqrt = 16;
 sqrt **= 0.5;
-console.log(sqrt); // 4</code></pre>
+console.log(sqrt); // 4
+</code></pre>
 <h5 id="关系操作符"><a href="#关系操作符" class="headerlink" title="关系操作符"></a>关系操作符</h5><p>字符串比较，逐个按照编码比较；<br>数值字符串比较，先转换为数值；<br>NaN参与比较，均为false;</p>
 <pre><code class="js">let result = &quot;Brick&quot; &lt; &quot;alphabet&quot;; // true
 let result = &quot;23&quot; &lt; &quot;3&quot;; // true
 let result = &quot;23&quot; &lt; 3; // false
 let result = &quot;a&quot; &lt; 3; // 因为&quot;a&quot;会转换为 NaN，所以结果是 false
 let result1 = NaN &lt; 3; // false 
-let result2 = NaN &gt;= 3; // false</code></pre>
+let result2 = NaN &gt;= 3; // false
+</code></pre>
 <h5 id="逗号操作符"><a href="#逗号操作符" class="headerlink" title="逗号操作符"></a>逗号操作符</h5><p>在赋值时使用逗号操作符分隔值，最终会返回表达式中最后一个值。</p>
-<pre><code class="js">let num = (5, 1, 4, 8, 0); // num 的值为 0</code></pre>
+<pre><code class="js">let num = (5, 1, 4, 8, 0); // num 的值为 0
+</code></pre>
 <h4 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h4><p>for-in 语句用于 <strong>枚举</strong> 对象中的 <strong>非符号</strong> 键属性。<br>for-of 语句用于遍历 <strong>可迭代</strong> 对象的元素。<br>switch 语句采用全等判断，它的一种用法如下：</p>
 <pre><code class="js">let num = 25;
 switch (true) &#123;
@@ -192,7 +207,8 @@ switch (true) &#123;
         break;
     default:
         console.log(&quot;More than 20.&quot;);
-&#125;</code></pre>
+&#125;
+</code></pre>
 
     </div>
 

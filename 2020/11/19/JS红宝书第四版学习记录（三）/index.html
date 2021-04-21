@@ -28,7 +28,7 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/libs/zpix/zpix.css">
       <script src="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/js/theme.js"></script>
     
-<meta name="generator" content="Hexo 5.2.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body id="bodyx" path="2020/11/19/JS红宝书第四版学习记录（三）/">
     <div class="hd posts">
@@ -47,7 +47,8 @@
 <p>原始值不能有属性，尽管尝试给原始值添加属性不会报错。比如：</p>
 <pre><code class="js">let name = &quot;Nicholas&quot;;
 name.age = 27;
-console.log(name.age); // undefined</code></pre>
+console.log(name.age); // undefined
+</code></pre>
 <h4 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h4><p>ECMAScript 中所有函数的参数都是按值传递的。这意味着函数外的值会被复制到函数内部的参数中，就像从一个变量复制到另一个变量一样。如果是原始值，那么就跟原始值变量的复制一样，如果是引用值，那么就跟引用值变量的复制一样。</p>
 <p>下面例子证明对象是按值传递的：</p>
 <pre><code class="js">function setName(obj) &#123;
@@ -57,7 +58,8 @@ console.log(name.age); // undefined</code></pre>
 &#125;
 let person = new Object();
 setName(person);
-console.log(person.name); // &quot;Nicholas&quot;</code></pre>
+console.log(person.name); // &quot;Nicholas&quot;
+</code></pre>
 <p>当 obj 在函数内部被重写时，它变成了一个指向本地对象的指针。而那个本地对象在函数执行结束时就被销毁了。</p>
 <h4 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h4><p>垃圾回收基本思路很简单：确定哪个变量不会再使用，然后释放它占用的内存。这个过程是周期性的，即垃圾回收程序每隔一定时间（或者说在代码执行过程中某个预定的收集时间）就会自动运行。在浏览器的发展史上，用到过两种主要的标记策略：标记清理和引用计数。</p>
 <h4 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h4><p>优化内存占用的最佳手段就是保证在执行代码时只保存必要的数据。如果数据不再必要，那么把它设置为 null，从而释放其引用。这也可以叫<br>作解除引用。这个建议最适合全局变量和全局对象的属性。局部变量在超出作用域后会被自动解除引用，如下面的例子所示：</p>
@@ -68,7 +70,8 @@ console.log(person.name); // &quot;Nicholas&quot;</code></pre>
 &#125;
 let globalPerson = createPerson(&quot;Nicholas&quot;);
 // 解除 globalPerson 对值的引用
-globalPerson = null;</code></pre>
+globalPerson = null;
+</code></pre>
 <ul>
 <li>通过 const 和 let 声明提升性能</li>
 </ul>
@@ -81,9 +84,11 @@ globalPerson = null;</code></pre>
   this.title = &#39;Inauguration Ceremony Features Kazoo Band&#39;;
 &#125;
 let a1 = new Article();
-let a2 = new Article();</code></pre>
+let a2 = new Article();
+</code></pre>
 <p>V8 会在后台配置，让这两个类实例共享相同的隐藏类，因为这两个实例共享同一个构造函数和原型。假设之后又添加了下面这行代码：</p>
-<pre><code class="js">a2.author = &#39;Jake&#39;;</code></pre>
+<pre><code class="js">a2.author = &#39;Jake&#39;;
+</code></pre>
 <p>此时两个 Article 实例就会对应两个不同的隐藏类。根据这种操作的频率和隐藏类的大小，这有可能对性能产生明显影响。<br>当然，解决方案就是避免 JavaScript 的“先创建再补充”（ready-fire-aim）式的动态属性赋值，并在构造函数中一次性声明所有属性，如下所示：</p>
 <pre><code class="js">
 function Article(opt_author) &#123;
@@ -91,7 +96,8 @@ function Article(opt_author) &#123;
   this.author = opt_author;
 &#125;
 let a1 = new Article();
-let a2 = new Article(&#39;Jake&#39;);</code></pre>
+let a2 = new Article(&#39;Jake&#39;);
+</code></pre>
 <p>这样，两个实例基本上就一样了（不考虑 hasOwnProperty 的返回值），因此可以共享一个隐藏类，从而带来潜在的性能提升。</p>
 <ul>
 <li>静态分配与对象池</li>

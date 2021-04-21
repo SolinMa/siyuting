@@ -28,7 +28,7 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/libs/zpix/zpix.css">
       <script src="https://cdn.jsdelivr.net/gh/SolinMa/siyuting@gh-pages/js/theme.js"></script>
     
-<meta name="generator" content="Hexo 5.2.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body id="bodyx" path="2020/11/10/JS红宝书第四版学习记录（一）/">
     <div class="hd posts">
@@ -50,7 +50,8 @@
 <li>所有<code>&lt;script&gt;</code>元素会依照它们在网页中出现的次序被解释。<br>如果你自己的代码doSth.js中依赖了JQuery对象，那就需要将引入doSth.js的标签放在JQuery下面。</li>
 </ul>
 <pre><code class="html">    &lt;script src=&quot;/jquery.min.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;/doSth.js&quot;&gt;&lt;/script&gt;</code></pre>
+    &lt;script src=&quot;/doSth.js&quot;&gt;&lt;/script&gt;
+</code></pre>
 <ul>
 <li><p><code>defer</code>属性，意于告诉浏览器立即下载，但延迟执行。(<del>不推荐</del>)<br>在实际当中，推迟执行的脚本不一定总会按顺序执行或者在 <code>DOMContentLoaded</code>事件之前执行，因此最好只包含一个这样的脚本。</p>
 </li>
@@ -62,9 +63,11 @@
 <pre><code class="javascript">let script = document.createElement(&#39;script&#39;); 
 script.src = &#39;doSth.js&#39;; 
 script.async = false; 
-document.head.appendChild(script);</code></pre>
+document.head.appendChild(script);
+</code></pre>
 <p>可以通过在文档头部显式声明它们，通知预加载器，提升性能。</p>
-<pre><code class="javascript">&lt;link rel=&quot;preload&quot; href=&quot;doSth.js&quot;&gt;</code></pre>
+<pre><code class="javascript">&lt;link rel=&quot;preload&quot; href=&quot;doSth.js&quot;&gt;
+</code></pre>
 <ul>
 <li>通过使用<code>&lt;noscript&gt;</code>元素，可以指定在浏览器不支持脚本时显示的内容。</li>
 </ul>
